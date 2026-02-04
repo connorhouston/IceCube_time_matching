@@ -1,0 +1,11 @@
+# file name: submit_timematch.condor
+# special variables:
+initialdir = /home/chouston/TA_scripts/IceCube_time_matching
+Executable = timematching.sh
+Arguments = $(DAY)
+output = ./logs/job.$(ProcId).out
+error = ./logs/job.$(ProcId).err
+log = ./logs/job.log
+request_cpus = 1
+request_memory = 6GB
+queue DAY in 20240104
