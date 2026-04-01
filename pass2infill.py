@@ -8,21 +8,34 @@ modified by lucas
 import sys
 import os
 import datetime
+import argparse
 
 print('Starting pass 1 for Infill script\n. . .')
 
-if len(sys.argv) > 1:
-    directory = sys.argv[1]
-    print(f'Received directory from command line: {directory}')
-else:
-    directory = input('In which directory is the Infill data?')
+parser = argparse.ArgumentParser()
+parser.add_argument('-d', '--debug', action='store_true', help='Enable debug output')
+parser.add_argument(
+    "--input-dir",
+    required=True,
+    help="Path to the input directory containing the Infill data files"
+)
+parser.add_argument(
+    "--date",
+    required=True,
+    help="Date for which to process Infill data (yyyymmdd)"
+)
+args = parser.parse_args()
+print(f'Received directory from command line: {args.input_dir}')
+print(f'Received date from command line: {args.date}')
 
 
-if len(sys.argv) > 2:
-    datestr = sys.argv[2]
-    print(f'Received date from command line: {datestr}')
-else:
-    datestr = input('Which date? (enter in yyyymmdd):')
+# if len(sys.argv) > 2:
+#     datestr = sys.argv[2]
+#     print(f'Received date from command line: {datestr}')
+# else:
+#     datestr = input('Which date? (enter in yyyymmdd):')
+
+datestr = args.date
 
 date = datetime.datetime(int(datestr[:4]), int(datestr[4:6]), int(datestr[6:]))
 
@@ -72,7 +85,8 @@ def datareading(i, path):
 
             if not parts[0].startswith("9"):  # Header line
                 finalize_event()
-                # print(parts)
+                if args.debug:
+                    print(parts)
                 current_event = [[float(p) for p in parts]]
                 current_event9 = [[float(p) for p in parts]]
             else:  # Subdetector line
@@ -86,12 +100,14 @@ def datareading(i, path):
     finalize_event()
     return events, events9
 
+if args.debug:
+    print(current_event)
+
 def timingFile(events, i):
     def hhmmss_to_microseconds(hhmmss):
             hours = hhmmss // 10000
             minutes = (hhmmss // 100) % 100
             seconds = hhmmss % 100
-
             seconds = hours * 3600 + minutes * 60 + seconds
             microseconds = seconds * 1000000
             return microseconds
@@ -108,7 +124,7 @@ def timingFile(events, i):
 if not os.path.exists(f'/data/exp/IceCube/2025/unbiased/surface/TA/timeMatching/Infill-pass2/{newfmtdate}-Infill-pass2'):
     os.makedirs(f'/data/exp/IceCube/2025/unbiased/surface/TA/timeMatching/Infill-pass2/{newfmtdate}-Infill-pass2')
     
-path = finddir(directory, datestr)
+path = finddir(args.input_dir, datestr)
 print(f'Finding 9 detector coincidences for date: {newfmtdate}\n. . .')
 _, e9 = datareading(datestr, path)
 
