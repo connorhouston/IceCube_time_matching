@@ -85,8 +85,8 @@ def datareading(i, path):
 
             if not parts[0].startswith("9"):  # Header line
                 finalize_event()
-                if args.debug:
-                    print(parts)
+#                if args.debug:
+#                    print(parts)
                 current_event = [[float(p) for p in parts]]
                 current_event9 = [[float(p) for p in parts]]
             else:  # Subdetector line
@@ -97,11 +97,16 @@ def datareading(i, path):
                 if subdetector_id in in9range:
                     current_event9.append(reordered)
 
+    if args.debug:
+#        print(current_event)
+        print(current_event9)
+
+    if args.debug:
+#        print(events)
+        print(events9)
+
     finalize_event()
     return events, events9
-
-if args.debug:
-    print(current_event)
 
 def timingFile(events, i):
     def hhmmss_to_microseconds(hhmmss):
