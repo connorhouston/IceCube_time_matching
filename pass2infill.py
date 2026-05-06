@@ -61,11 +61,14 @@ def finddir(directory, datestr):
         
     return datafolder
 
+#reads through all events 
 def datareading(i, path):
     events, events9 = [], []
     current_event, current_event9 = [], []
     in9range = [9105, 9106, 9107, 9205, 9206, 9207, 9305, 9306, 9307]
 
+#finalizes event with hits in all 9 panels and appends list of those events
+#this function could be changed to use numpy match instead of going over rows
     def finalize_event():
         if current_event:
             events.append(current_event.copy())
@@ -117,6 +120,7 @@ def timingFile(events, i):
             microseconds = seconds * 1000000
             return microseconds
 
+#creates output file
     with open(f"/data/exp/IceCube/2025/unbiased/surface/TA/timeMatching/Infill-pass2/{i}-Infill-pass2/{i}-Infill-pass2.csv", "w") as file:
         file.write("Microseconds\n")
         for i in range(0, len(events)):
