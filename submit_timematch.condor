@@ -8,4 +8,4 @@ error = ./logs/job.$(ProcId).err
 log = ./logs/job.log
 request_cpus = 1
 request_memory = 6GB
-queue DAY in 20240104
+queue DAY from timematch_arguments_Jan.txt
