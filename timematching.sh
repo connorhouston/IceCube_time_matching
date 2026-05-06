@@ -1,7 +1,7 @@
 #!/bin/bash
 
 icecubedirectory='/data/exp/IceCube/2025/unbiased/surface/TA/processed/hit'
-infilldirectory='/home/chouston/TA_scripts/IceCube_time_matching/Infill_data'
+infilldirectory='/home/chouston/TA_scripts/IceCube_time_matching/Infill_data/Jan_24'
 DAY="$1"
 source /home/chouston/python_envs/TA_python/bin/activate
 
