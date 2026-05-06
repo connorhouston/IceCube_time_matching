@@ -12,6 +12,7 @@ import pandas as pd
 
 print('Starting pass 2 for IceCube script\n. . .')
 
+#setup for inputs
 if len(sys.argv) > 1:
     datestr = sys.argv[1]
     print(f'Received date from command line: {datestr}')
@@ -22,6 +23,7 @@ date = datetime.datetime(int(datestr[:4]), int(datestr[4:6]), int(datestr[6:]))
 
 newfmtdate = date.strftime('y%Ym%md%d')
 
+#finds coincident events within a certain window amongst the different scintillators
 def ncomparison(times, threshold):
     n = len(times)
     
